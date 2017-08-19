@@ -1,0 +1,20 @@
+@model GestaoCustoBusiness.Model.Produto
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="form-inline">
+    <label asp-for="Descricao" class="col-md-1 control-label"></label>
+    <div class="col-md-4">
+        <input asp-for="Descricao" class="form-control" style="width: 100%" />
+        <span asp-validation-for="Descricao" class="text-danger"></span>
+    </div>
+    <label asp-for="Qtd" class="col-md-1 control-label"></label>
+    <div class="col-md-2">
+        <input asp-for="Qtd" class="form-control" />
+        <span asp-validation-for="Qtd" class="text-danger"></span>
+    </div>
+    <label asp-for="Preco" class="col-md-1 control-label"></label>
+    <div class="col-md-2">
+        <input asp-for="Preco" class="form-control" />
+        <span asp-validation-for="Preco" class="text-danger"></span>
+    </div>
+</div>

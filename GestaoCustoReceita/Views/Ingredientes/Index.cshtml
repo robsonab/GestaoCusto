@@ -1,0 +1,71 @@
+@model IEnumerable<GestaoCustoBusiness.Model.Ingrediente>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<p>
+    @Context.Request.Query["receita"].ToString()
+
+    @if (Model.FirstOrDefault() != null)
+    {
+        @Html.Partial("~/Views/Receitas/Details.cshtml", Model.FirstOrDefault().Receita)        
+    }
+    
+</p>
+<p>
+    @{await Html.RenderPartialAsync("Create", new GestaoCustoBusiness.Model.Ingrediente());}
+
+
+
+
+
+
+</p>
+
+<h2>Index</h2>
+<p>
+    <a asp-action="Create" asp-route-receita="@ViewBag.ReceitaId">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Produto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecoTotal)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Produto.Descricao)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantidade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecoTotal)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <form asp-action="Delete">
+                        <input type="hidden" value="@item.Id"  name="id"/>
+                        <input type="submit" value="Delete" />
+                        @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

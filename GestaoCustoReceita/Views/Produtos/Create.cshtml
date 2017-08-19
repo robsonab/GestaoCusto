@@ -1,0 +1,36 @@
+@model GestaoCustoBusiness.Model.Produto
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create" >
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-horizontal">
+        <label asp-for="Descricao" class="col-md-1 control-label"></label>
+        <div class="col-md-3">
+            <input asp-for="Descricao" class="form-control" style="width: 100%" />
+            <span asp-validation-for="Descricao" class="text-danger"></span>
+        </div>
+        <label asp-for="Qtd" class="col-md-1 control-label"></label>
+        <div class="col-md-2">
+            <input asp-for="Qtd" class="form-control" style="width: 100%" />
+            <span asp-validation-for="Qtd" class="text-danger"></span>
+        </div>
+        <label asp-for="Preco" class="col-md-1 control-label"></label>
+        <div class="col-md-2">
+            <input asp-for="Preco" class="form-control" style="width: 100%" />
+            <span asp-validation-for="Preco" class="text-danger"></span>
+        </div>
+        <div class="col-md-2">
+            <input type="submit" value="Adicionar" class="btn btn-default" style="width: 100%" />
+        </div>
+    </div>
+</form>
+<br />
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

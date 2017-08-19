@@ -1,0 +1,54 @@
+@model GestaoCustoBusiness.Model.Ingrediente
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Ingrediente</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="ProdutoId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ProdutoId" class ="form-control" asp-items="ViewBag.ProdutoId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantidade" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Quantidade" class="form-control" />
+                <span asp-validation-for="Quantidade" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PrecoTotal" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PrecoTotal" class="form-control" />
+                <span asp-validation-for="PrecoTotal" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReceitaId" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="ReceitaId" class ="form-control" asp-items="ViewBag.ReceitaId"></select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using GestaoCustoReceita.Data;
 using GestaoCustoReceita.Models;
 using GestaoCustoReceita.Services;
+using GestaoCustoBusiness.Model;
 
 namespace GestaoCustoReceita
 {
@@ -41,6 +42,9 @@ namespace GestaoCustoReceita
         {
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<GestaoModel>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()

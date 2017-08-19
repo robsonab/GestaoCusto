@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using GestaoCustoReceita.Models;
+using GestaoCustoBusiness.Model;
 
 namespace GestaoCustoReceita.Data
 {
@@ -22,5 +23,13 @@ namespace GestaoCustoReceita.Data
             // For example, you can rename the ASP.NET Identity table names and more.
             // Add your customizations after calling base.OnModelCreating(builder);
         }
+
+        public DbSet<GestaoCustoBusiness.Model.UnidadeMedida> UnidadeMedida { get; set; }
+
+        public DbSet<GestaoCustoBusiness.Model.Produto> Produtos { get; set; }
+
+        public DbSet<GestaoCustoBusiness.Model.Receita> Receitas { get; set; }
+
+        public DbSet<GestaoCustoBusiness.Model.Ingrediente> Ingredientes { get; set; }
     }
 }
