@@ -10,20 +10,14 @@
 <div>
     <h4>Ingrediente</h4>
     <hr />
-    <dl class="dl-horizontal">
-        <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Id" />
+    <dl class="dl-horizontal">        
         <dt>
             @Html.DisplayNameFor(model => model.Quantidade)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Quantidade)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PrecoTotal)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PrecoTotal)
-        </dd>
+        </dd> 
         <dt>
             @Html.DisplayNameFor(model => model.Produto)
         </dt>
@@ -41,7 +35,7 @@
     <form asp-action="Delete">
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <a asp-action="Index" asp-route-receita="@Model.ReceitaId">Back to List</a>
         </div>
     </form>
 </div>

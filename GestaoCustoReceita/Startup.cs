@@ -13,6 +13,7 @@ using GestaoCustoReceita.Data;
 using GestaoCustoReceita.Models;
 using GestaoCustoReceita.Services;
 using GestaoCustoBusiness.Model;
+using System.Globalization;
 
 namespace GestaoCustoReceita
 {
@@ -80,6 +81,11 @@ namespace GestaoCustoReceita
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+
+            var cultureInfo = new CultureInfo("pt-BR");
+            
+            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
             app.UseMvc(routes =>
             {

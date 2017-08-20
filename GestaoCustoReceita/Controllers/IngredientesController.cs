@@ -22,16 +22,64 @@ namespace GestaoCustoReceita.Controllers
         // GET: Ingredientes        
         public async Task<IActionResult> Index(int? receita)
         {
-            var applicationDbContext = _context.Ingredientes
+            var ingredientes = await _context.Ingredientes
                                             .Where(i => i.ReceitaId == receita)
                                             .Include(i => i.Produto)
-                                            .Include(i => i.Receita);
+                                            .Include(i => i.Receita)
+                                            .ToListAsync();
+
+            AtualizaPreco(ingredientes);
             ViewBag.ReceitaId = receita;
-            ViewData["ReceitaId"] = new SelectList(_context.Receitas, "Id", "Descricao");
+
             ViewData["ProdutoId"] = new SelectList(_context.Produtos.OrderBy(p => p.Descricao), "Id", "Descricao");
 
-            return View(await applicationDbContext.ToListAsync());
+            if (ingredientes.Count == 0)
+            {
+                ViewBag.Receita = _context.Receitas.Where(r => r.Id == receita).FirstOrDefault().Descricao;
+            }
+            else
+            {
+                ViewBag.Receita = ingredientes.FirstOrDefault().Receita.Descricao;
+            }
+            return View(ingredientes);
         }
+
+        public void AtualizaPreco(List<Ingrediente> ingredientes)
+        {
+            foreach (var item in ingredientes)
+            {
+                item.Custo = item.Quantidade * (item.Produto.Preco / item.Produto.Qtd);
+            }
+        }
+        // GET: Ingredientes/Create
+        public IActionResult Create(int id)
+        {
+            ViewData["ProdutoId"] = new SelectList(_context.Produtos.OrderBy(p => p.Descricao), "Id", "Descricao");
+            ViewData["ReceitaId"] = id;
+            ViewBag.Receita = _context.Receitas.Where(r => r.Id == id).FirstOrDefault().Descricao;
+
+            return View();
+        }
+
+        // POST: Ingredientes/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id, ProdutoId,Quantidade,ReceitaId")] Ingrediente ingrediente)
+        {
+            ingrediente.Id = 0;
+            if (ModelState.IsValid)
+            {
+                _context.Add(ingrediente);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", new { receita = ingrediente.ReceitaId });
+            }
+            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "Id", "Id", ingrediente.ProdutoId);
+            ViewData["ReceitaId"] = new SelectList(_context.Receitas, "Id", "Id", ingrediente.ReceitaId);
+            return View(ingrediente);
+        }
+
 
         // GET: Ingredientes/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -53,31 +101,6 @@ namespace GestaoCustoReceita.Controllers
             return View(ingrediente);
         }
 
-        // GET: Ingredientes/Create
-        public IActionResult Create()
-        {
-            ViewData["ProdutoId"] = new SelectList(_context.Produtos.OrderBy(p => p.Descricao), "Id", "Descricao");
-            ViewData["ReceitaId"] = new SelectList(_context.Receitas, "Id", "Descricao");
-            return View();
-        }
-
-        // POST: Ingredientes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, ProdutoId,Quantidade,PrecoTotal,ReceitaId")] Ingrediente ingrediente)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(ingrediente);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { receita = ingrediente.ReceitaId });
-            }
-            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "Id", "Id", ingrediente.ProdutoId);
-            ViewData["ReceitaId"] = new SelectList(_context.Receitas, "Id", "Id", ingrediente.ReceitaId);
-            return View(ingrediente);
-        }
 
         // GET: Ingredientes/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -92,7 +115,8 @@ namespace GestaoCustoReceita.Controllers
             {
                 return NotFound();
             }
-            ViewData["ProdutoId"] = new SelectList(_context.Produtos, "Id", "Id", ingrediente.ProdutoId);
+
+            ViewData["ProdutoId"] = new SelectList(_context.Produtos.OrderBy(p => p.Descricao), "Id", "Descricao");
             ViewData["ReceitaId"] = new SelectList(_context.Receitas, "Id", "Descricao", ingrediente.ReceitaId);
             return View(ingrediente);
         }
@@ -102,7 +126,7 @@ namespace GestaoCustoReceita.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ProdutoId,Quantidade,PrecoTotal,ReceitaId")] Ingrediente ingrediente)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ProdutoId,Quantidade,ReceitaId")] Ingrediente ingrediente)
         {
             if (id != ingrediente.Id)
             {
@@ -127,7 +151,7 @@ namespace GestaoCustoReceita.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { receita = ingrediente.ReceitaId });
             }
             ViewData["ProdutoId"] = new SelectList(_context.Produtos, "Id", "Id", ingrediente.ProdutoId);
             ViewData["ReceitaId"] = new SelectList(_context.Receitas, "Id", "Id", ingrediente.ReceitaId);
@@ -161,7 +185,7 @@ namespace GestaoCustoReceita.Controllers
         {
             var ingrediente = await _context.Ingredientes.SingleOrDefaultAsync(m => m.Id == id);
             _context.Ingredientes.Remove(ingrediente);
-            await _context.SaveChangesAsync();            
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { receita = ingrediente.ReceitaId });
         }
 

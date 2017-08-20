@@ -1,20 +1,21 @@
 @model GestaoCustoBusiness.Model.Ingrediente
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["title"] = "Adicionar ingrediente";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.Receita</h2>
 
 <form asp-action="Create">
     <div class="form-horizontal">
-        <h4>Ingrediente</h4>
+        <h4>Adicionar ingrediente</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="ProdutoId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-for="ProdutoId" class ="form-control" asp-items="ViewBag.ProdutoId"></select>
+                <input asp-for="ReceitaId" type="hidden" value="@ViewBag.ReceitaId" />
             </div>
         </div>
         <div class="form-group">
@@ -25,28 +26,15 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="PrecoTotal" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="PrecoTotal" class="form-control" />
-                <span asp-validation-for="PrecoTotal" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ReceitaId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="ReceitaId" class ="form-control" asp-items="ViewBag.ReceitaId"></select>
-            </div>
-        </div>
-        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Adicionar" class="btn btn-default" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-receita="@ViewBag.ReceitaId">Voltar</a>
 </div>
 
 @section Scripts {

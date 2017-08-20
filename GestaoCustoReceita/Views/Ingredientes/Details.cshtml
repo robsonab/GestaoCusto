@@ -17,12 +17,6 @@
             @Html.DisplayFor(model => model.Quantidade)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.PrecoTotal)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PrecoTotal)
-        </dd>
-        <dt>
             @Html.DisplayNameFor(model => model.Produto)
         </dt>
         <dd>
@@ -38,5 +32,5 @@
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-receita="@Model.ReceitaId">Back to List</a>
 </div>

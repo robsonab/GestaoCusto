@@ -16,6 +16,7 @@
             <label asp-for="ProdutoId" class="control-label col-md-2"></label>
             <div class="col-md-10">
                 <select asp-for="ProdutoId" class="form-control" asp-items="ViewBag.ProdutoId"></select>
+                <input asp-for="ReceitaId" type="hidden" />
                 <span asp-validation-for="ProdutoId" class="text-danger"></span>
             </div>
         </div>
@@ -25,21 +26,7 @@
                 <input asp-for="Quantidade" class="form-control" />
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
             </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="PrecoTotal" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="PrecoTotal" class="form-control" />
-                <span asp-validation-for="PrecoTotal" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ReceitaId" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="ReceitaId" class="form-control" asp-items="ViewBag.ReceitaId"></select>
-                <span asp-validation-for="ReceitaId" class="text-danger"></span>
-            </div>
-        </div>
+        </div> 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -49,7 +36,7 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-route-receita="@Model.ReceitaId">Back to List</a>
 </div>
 
 @section Scripts {

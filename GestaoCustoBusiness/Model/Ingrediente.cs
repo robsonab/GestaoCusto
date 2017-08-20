@@ -11,10 +11,15 @@ namespace GestaoCustoBusiness.Model
     {
         [Key]
         public int Id { get; set; }
+
+        [Display(Name ="Ingrediente")]
         public int ProdutoId { get; set; }
+
         public Produto Produto { get; set; }
         public decimal Quantidade { get; set; }
-        public decimal PrecoTotal { get; set; }
+        [NotMapped]
+        public decimal Custo { get; set; }
+        [Display(Name ="Receita")]
         public int ReceitaId { get; set; }
         public Receita Receita { get; set; }
     }

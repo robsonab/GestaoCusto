@@ -1,30 +1,12 @@
 @model IEnumerable<GestaoCustoBusiness.Model.Ingrediente>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Rceita";
 }
+
+<h2>@ViewBag.Receita</h2>
 <p>
-    @Context.Request.Query["receita"].ToString()
-
-    @if (Model.FirstOrDefault() != null)
-    {
-        @Html.Partial("~/Views/Receitas/Details.cshtml", Model.FirstOrDefault().Receita)        
-    }
-    
-</p>
-<p>
-    @{await Html.RenderPartialAsync("Create", new GestaoCustoBusiness.Model.Ingrediente());}
-
-
-
-
-
-
-</p>
-
-<h2>Index</h2>
-<p>
-    <a asp-action="Create" asp-route-receita="@ViewBag.ReceitaId">Create New</a>
+    <a asp-action="Create" asp-route-id="@Context.Request.Query["receita"].ToString()">Adicionar</a>
 </p>
 
 <table class="table">
@@ -34,38 +16,65 @@
                 @Html.DisplayNameFor(model => model.Produto)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantidade)
+                Qtd. Embalagem
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrecoTotal)
+                Pre&ccedil;o
+            </th>
+            <th>
+                Qtd. Usado
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Custo)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
-        {
+            {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Produto.Descricao)
                 </td>
-                <td>
+                <td align="right">
+                    @Html.DisplayFor(modelItem => item.Produto.Qtd)
+                </td>
+                <td align="right">
+                    @Html.DisplayFor(modelItem => item.Produto.Preco)
+                </td>
+                <td align="right">
                     @Html.DisplayFor(modelItem => item.Quantidade)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.PrecoTotal)
+                <td align="right">
+                    @Html.DisplayFor(modelItem => item.Custo)
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <form asp-action="Delete">
-                        <input type="hidden" value="@item.Id"  name="id"/>
-                        <input type="submit" value="Delete" />
-                        @*<a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                    </form>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Alterar</a> |                    
+                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
                 </td>
             </tr>
         }
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <strong>
+                    Total:
+                </strong>
+            </td>
+            <td align="right">
+                <strong>
+                    @Model.Sum(m => m.Custo).ToString("n2")
+                </strong>
+            </td>
+            <td></td>
+        </tr>
     </tbody>
 </table>
+
+<div>
+    <a asp-controller="Receitas" asp-action="Index">Voltar para lista de receitas</a>
+</div>

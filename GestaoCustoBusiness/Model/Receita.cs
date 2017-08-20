@@ -13,8 +13,14 @@ namespace GestaoCustoBusiness.Model
         [Key]
         public int Id { get; set; }
 
+        [Display(Name = "Receita")]
         public string Descricao { get; set; }
 
         public IEnumerable<Ingrediente> Ingredientes { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Custo")]
+        public decimal CustoTotal { get; set; }
+
     }
 }

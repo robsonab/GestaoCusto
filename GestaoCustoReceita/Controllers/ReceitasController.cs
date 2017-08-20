@@ -16,14 +16,25 @@ namespace GestaoCustoReceita.Controllers
 
         public ReceitasController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Receitas
         public async Task<IActionResult> Index()
-        {            
-            ViewBag.UMs = new SelectList(_context.UnidadeMedida, "Id", "Descricao");
-            return View(await _context.Receitas.ToListAsync());
+        {
+            var receitas = await _context.Receitas
+                                    .Include(r => r.Ingredientes)
+                                    .ToListAsync();
+            receitas.ForEach(item => item.CustoTotal = GetCustoTotal(item.Id));
+            return View(receitas);
+        }
+
+
+        public decimal GetCustoTotal(int receitaid)
+        {
+            return _context.Ingredientes
+                        .Where(i => i.ReceitaId == receitaid)
+                        .Sum(item => item.Quantidade * (item.Produto.Preco / item.Produto.Qtd));
         }
 
         // GET: Receitas/Details/5
@@ -44,7 +55,7 @@ namespace GestaoCustoReceita.Controllers
             return View(receita);
         }
 
-      
+
         // GET: Receitas/Create
         public IActionResult Create()
         {
