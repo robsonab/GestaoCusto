@@ -14,6 +14,8 @@ using GestaoCustoReceita.Models;
 using GestaoCustoReceita.Services;
 using GestaoCustoBusiness.Model;
 using System.Globalization;
+using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.Localization;
 
 namespace GestaoCustoReceita
 {
@@ -52,7 +54,27 @@ namespace GestaoCustoReceita
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            //services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            // Your service configuration code
+
+            services.AddMvc()
+                        .AddViewOptions(options =>
+                        {
+                            options.HtmlHelperOptions.ClientValidationEnabled = false;
+                        })
+                      .AddViewLocalization(
+                          LanguageViewLocationExpanderFormat.Suffix,
+                          opts => { opts.ResourcesPath = "Resources"; })
+                      .AddDataAnnotationsLocalization();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var supportedCultures = new[] { new CultureInfo("pt"), new CultureInfo("pt") };
+                options.DefaultRequestCulture = new RequestCulture("pt", "pt");
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures = supportedCultures;
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -65,6 +87,14 @@ namespace GestaoCustoReceita
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            var supportedCultures = new[] { new CultureInfo("pt") };
+            app.UseRequestLocalization(new RequestLocalizationOptions()
+            {
+                DefaultRequestCulture = new RequestCulture(new CultureInfo("pt")),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -75,17 +105,12 @@ namespace GestaoCustoReceita
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
             app.UseStaticFiles();
 
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
-            var cultureInfo = new CultureInfo("pt-BR");
-            
-            CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-            CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
             app.UseMvc(routes =>
             {

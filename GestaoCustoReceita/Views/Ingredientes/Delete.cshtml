@@ -1,12 +1,12 @@
 @model GestaoCustoBusiness.Model.Ingrediente
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Exclusão";
 }
 
-<h2>Delete</h2>
+<h2>Exclusão</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Tem certeza que deseja excluir?</h3>
 <div>
     <h4>Ingrediente</h4>
     <hr />
@@ -34,8 +34,8 @@
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index" asp-route-receita="@Model.ReceitaId">Back to List</a>
+            <input type="submit" value="Excluir" class="btn btn-default" /> |
+            <a asp-action="Index" asp-route-receita="@Model.ReceitaId">Voltar</a>
         </div>
     </form>
 </div>

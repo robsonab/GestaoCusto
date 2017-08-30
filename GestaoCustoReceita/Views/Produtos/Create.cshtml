@@ -1,35 +1,59 @@
+@using Microsoft.AspNetCore.Mvc.Localization
 @model GestaoCustoBusiness.Model.Produto
+@inject IViewLocalizer Localizer
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Novo";
 }
 
-<h2>Create</h2>
+<h2>Novo</h2>
 
-<form asp-action="Create" >
+<form asp-action="Create">
+    <h4>Produto</h4>
+    <hr />
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" value="@ViewBag.ReceitaId" name="ReceitaId" id="ReceitaId" />
     <div class="form-horizontal">
-        <label asp-for="Descricao" class="col-md-1 control-label"></label>
-        <div class="col-md-3">
-            <input asp-for="Descricao" class="form-control" style="width: 100%" />
-            <span asp-validation-for="Descricao" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="Descricao" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Descricao" class="form-control" style="width: 100%" />
+                <span asp-validation-for="Descricao" class="text-danger"></span>
+            </div>
         </div>
-        <label asp-for="Qtd" class="col-md-1 control-label"></label>
-        <div class="col-md-2">
-            <input asp-for="Qtd" class="form-control" style="width: 100%" />
-            <span asp-validation-for="Qtd" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="Qtd" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Qtd" class="form-control" style="width: 100%" />
+                <span asp-validation-for="Qtd" class="text-danger"></span>
+            </div>
         </div>
-        <label asp-for="Preco" class="col-md-1 control-label"></label>
-        <div class="col-md-2">
-            <input asp-for="Preco" class="form-control" style="width: 100%" />
-            <span asp-validation-for="Preco" class="text-danger"></span>
+        <div class="form-group">
+            <label asp-for="Preco" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Preco" class="form-control" style="width: 100%" />
+                <span asp-validation-for="Preco" class="text-danger"></span>
+            </div>
         </div>
-        <div class="col-md-2">
-            <input type="submit" value="Adicionar" class="btn btn-default" style="width: 100%" />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Adicionar" class="btn btn-default" />
+            </div>
         </div>
     </div>
 </form>
-<br />
+
+<div>
+    @if (string.IsNullOrEmpty(Context.Request.Query["receita"]))
+    {
+        <a asp-action="Index">Voltar</a>
+    }
+    else
+    {
+        <a asp-controller="Ingredientes"  asp-route-id="@Context.Request.Query["receita"]" asp-action="Create">Voltar</a>
+    }
+
+</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

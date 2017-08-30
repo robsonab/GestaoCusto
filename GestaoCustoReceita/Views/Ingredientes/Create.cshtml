@@ -7,20 +7,23 @@
 <h2>@ViewBag.Receita</h2>
 
 <form asp-action="Create">
+    <h4>Adicionar ingrediente</h4>
+    <hr />
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="form-horizontal">
-        <h4>Adicionar ingrediente</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
             <label asp-for="ProdutoId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="ProdutoId" class ="form-control" asp-items="ViewBag.ProdutoId"></select>
-                <input asp-for="ReceitaId" type="hidden" value="@ViewBag.ReceitaId" />
-            </div>
+            <div class="col-md-8" >
+                <div style="float: left">
+                    <select asp-for="ProdutoId" class="form-control" asp-items="ViewBag.ProdutoId"></select>
+                    <input asp-for="ReceitaId" type="hidden" value="@ViewBag.ReceitaId" />                    
+                </div>                
+                <a asp-controller="Produtos" asp-action="Create" asp-route-receita="@ViewBag.ReceitaId" class="btn btn-primary col-md-2" role="button" aria-disabled="true">Novo</a>
+            </div>            
         </div>
         <div class="form-group">
             <label asp-for="Quantidade" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
+            <div class="col-md-8">
                 <input asp-for="Quantidade" class="form-control" />
                 <span asp-validation-for="Quantidade" class="text-danger"></span>
             </div>

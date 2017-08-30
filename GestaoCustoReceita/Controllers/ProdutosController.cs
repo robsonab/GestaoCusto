@@ -22,7 +22,7 @@ namespace GestaoCustoReceita.Controllers
         // GET: Produtos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Produtos.ToListAsync());
+            return View(await _context.Produtos.OrderBy(p => p.Descricao).ToListAsync());
         }
 
         // GET: Produtos/Details/5
@@ -46,6 +46,14 @@ namespace GestaoCustoReceita.Controllers
         // GET: Produtos/Create
         public IActionResult Create()
         {
+            if (!string.IsNullOrEmpty(Request.Query["receita"]))
+            {
+                ViewBag.ReceitaId = int.Parse(Request.Query["receita"]);
+            }
+            else
+            {
+                ViewBag.ReceitaId = 0;
+            }
             return View();
         }
 
@@ -55,13 +63,20 @@ namespace GestaoCustoReceita.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descricao,Qtd,Preco")] Produto produto)
+        public async Task<IActionResult> Create([Bind("Id,Descricao,Qtd,Preco")] Produto produto, int receitaId)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(produto);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                if (receitaId == 0)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("Create", "Ingredientes", new { id = receitaId });
+                }
             }
             return View(produto);
         }
@@ -73,7 +88,14 @@ namespace GestaoCustoReceita.Controllers
             {
                 return NotFound();
             }
-
+            if (!string.IsNullOrEmpty(Request.Query["receita"]))
+            {
+                ViewBag.ReceitaId = int.Parse(Request.Query["receita"]);
+            }
+            else
+            {
+                ViewBag.ReceitaId = 0;
+            }
             var produto = await _context.Produtos.SingleOrDefaultAsync(m => m.Id == id);
             if (produto == null)
             {
@@ -87,7 +109,7 @@ namespace GestaoCustoReceita.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descricao,Qtd,Preco")] Produto produto)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descricao,Qtd,Preco")] Produto produto, int receitaId)
         {
             if (id != produto.Id)
             {
@@ -112,7 +134,14 @@ namespace GestaoCustoReceita.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                if (receitaId == 0)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Ingredientes", new { id = receitaId });
+                } 
             }
             return View(produto);
         }

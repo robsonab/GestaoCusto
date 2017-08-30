@@ -35,7 +35,9 @@
             {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Produto.Descricao)
+                    <a asp-controller="Produtos" asp-action="Edit" asp-route-id="@item.Id" asp-route-receita="@Context.Request.Query["receita"].ToString()">
+                        @Html.DisplayFor(modelItem => item.Produto.Descricao)
+                    </a>
                 </td>
                 <td align="right">
                     @Html.DisplayFor(modelItem => item.Produto.Qtd)
@@ -51,7 +53,7 @@
                 </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Alterar</a> |                    
+                    <a asp-action="Edit" asp-route-id="@item.Id">Alterar</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
                 </td>
             </tr>
@@ -68,6 +70,38 @@
             <td align="right">
                 <strong>
                     @Model.Sum(m => m.Custo).ToString("n2")
+                </strong>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <strong>
+                    Qtd. Por&ccedil;&otilde;es:
+                </strong>
+            </td>
+            <td align="right">
+                <strong>
+                    @Model.First().Receita.Qtd.ToString("n0")
+                </strong>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                <strong>
+                    Pre&ccedil;o por por&ccedil;&atilde;o:
+                </strong>
+            </td>
+            <td align="right">
+                <strong>
+                    @Model.First().Receita.CustoUnitario.ToString("n2")
                 </strong>
             </td>
             <td></td>

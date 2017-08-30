@@ -16,6 +16,7 @@ namespace GestaoCustoBusiness.Model
         public int ProdutoId { get; set; }
 
         public Produto Produto { get; set; }
+        [Display(Name ="Qtd.")]
         public decimal Quantidade { get; set; }
         [NotMapped]
         public decimal Custo { get; set; }

@@ -25,7 +25,12 @@ namespace GestaoCustoReceita.Controllers
             var receitas = await _context.Receitas
                                     .Include(r => r.Ingredientes)
                                     .ToListAsync();
-            receitas.ForEach(item => item.CustoTotal = GetCustoTotal(item.Id));
+            receitas.ForEach(item =>
+            {
+                item.CustoTotal = GetCustoTotal(item.Id);
+                item.CustoUnitario = item.Qtd != 0 ? item.CustoTotal / item.Qtd : 0;
+            });
+
             return View(receitas);
         }
 
@@ -67,7 +72,7 @@ namespace GestaoCustoReceita.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Descricao")] Receita receita)
+        public async Task<IActionResult> Create([Bind("Id,Descricao,Qtd")] Receita receita)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +104,7 @@ namespace GestaoCustoReceita.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Descricao")] Receita receita)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Descricao,Qtd")] Receita receita)
         {
             if (id != receita.Id)
             {

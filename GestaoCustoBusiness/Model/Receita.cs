@@ -22,5 +22,11 @@ namespace GestaoCustoBusiness.Model
         [Display(Name = "Custo")]
         public decimal CustoTotal { get; set; }
 
+        [Display(Name = "Porções")]
+        public short Qtd { get; set; }
+
+        [NotMapped]
+        [Display(Name ="Custo Unit.")]
+        public decimal CustoUnitario { get; set; }
     }
 }

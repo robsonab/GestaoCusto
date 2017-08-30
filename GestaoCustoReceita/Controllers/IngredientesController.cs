@@ -26,10 +26,12 @@ namespace GestaoCustoReceita.Controllers
                                             .Where(i => i.ReceitaId == receita)
                                             .Include(i => i.Produto)
                                             .Include(i => i.Receita)
+                                            .OrderBy(i => i.Produto.Descricao)
                                             .ToListAsync();
 
             AtualizaPreco(ingredientes);
             ViewBag.ReceitaId = receita;
+            ingredientes.First().Receita.CustoUnitario = ingredientes.Sum(i=> i.Custo) / ingredientes.First().Receita.Qtd;
 
             ViewData["ProdutoId"] = new SelectList(_context.Produtos.OrderBy(p => p.Descricao), "Id", "Descricao");
 
@@ -48,7 +50,7 @@ namespace GestaoCustoReceita.Controllers
         {
             foreach (var item in ingredientes)
             {
-                item.Custo = item.Quantidade * (item.Produto.Preco / item.Produto.Qtd);
+                item.Custo = item.Quantidade * (item.Produto.Preco / item.Produto.Qtd);                
             }
         }
         // GET: Ingredientes/Create
