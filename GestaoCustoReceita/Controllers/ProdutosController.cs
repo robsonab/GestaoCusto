@@ -140,7 +140,7 @@ namespace GestaoCustoReceita.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Ingredientes", new { id = receitaId });
+                    return RedirectToAction("Index", "Ingredientes", new { receita = receitaId });
                 } 
             }
             return View(produto);

@@ -31,7 +31,9 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Descricao)
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </a>
                 </td>
                 <td align="right">
                     @Html.DisplayFor(modelItem => item.CustoTotal)
@@ -44,8 +46,7 @@
                 </td>
                 <td>
                     <a asp-controller="Ingredientes" asp-action="Create" asp-route-id="@item.Id">Adicionar</a> |
-                    <a asp-controller="Ingredientes" asp-action="Index" asp-route-receita="@item.Id">Visualizar</a> |
-                    <a asp-action="Edit" asp-route-id="@item.Id">Alterar</a> |
+                    <a asp-controller="Ingredientes" asp-action="Index" asp-route-receita="@item.Id">Visualizar</a> |                    
                     <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
                 </td>
             </tr>

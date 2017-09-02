@@ -31,7 +31,11 @@ namespace GestaoCustoReceita.Controllers
 
             AtualizaPreco(ingredientes);
             ViewBag.ReceitaId = receita;
-            ingredientes.First().Receita.CustoUnitario = ingredientes.Sum(i=> i.Custo) / ingredientes.First().Receita.Qtd;
+
+            if (ingredientes.Count > 0)
+            {
+                ingredientes.First().Receita.CustoUnitario = ingredientes.Sum(i => i.Custo) / ingredientes.First().Receita.Qtd;
+            }            
 
             ViewData["ProdutoId"] = new SelectList(_context.Produtos.OrderBy(p => p.Descricao), "Id", "Descricao");
 
