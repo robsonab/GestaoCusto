@@ -12,6 +12,9 @@
 <table class="table">
     <thead>
         <tr>
+
+            <th></th>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.Produto)
             </th>
@@ -34,6 +37,16 @@
         @foreach (var item in Model)
             {
             <tr>
+                <td width="5px">
+                    <a asp-action="Edit" asp-route-id="@item.Id">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                    </a>
+                </td>
+                <td width="5px">
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </a>
+                </td>
                 <td>
                     <a asp-controller="Produtos" asp-action="Edit" asp-route-id="@item.ProdutoId" asp-route-receita="@Context.Request.Query["receita"].ToString()">
                         @Html.DisplayFor(modelItem => item.Produto.Descricao)
@@ -89,7 +102,7 @@
                     {
                         @Model.First().Receita.Qtd.ToString("n0")
                     }
-                    
+
                 </strong>
             </td>
             <td></td>
