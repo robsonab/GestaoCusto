@@ -48,3 +48,31 @@ textarea {
         display: none;
     }
 }
+
+.icon-new {
+    font-size: large;
+    color: black;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.icon-edit {
+    font-size: large;
+    color: darkblue;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.icon-remove {
+    font-size: large;
+    color: red;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.column-buttons-3 {
+    width: 8em;
+}
+.column-buttons-2 {
+    width: 5em;
+}

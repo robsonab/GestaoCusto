@@ -11,6 +11,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.Descricao)
             </th>
@@ -23,13 +24,23 @@
             <th align="right">
                 @Html.DisplayNameFor(model => model.CustoUnitario)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
+                <td class="column-buttons-3">
+                    <a asp-controller="Ingredientes" asp-action="Create" asp-route-id="@item.Id">
+                        <span class="glyphicon glyphicon-plus icon-new"  aria-hidden="true"></span>
+                    </a>
+                    <a asp-controller="Ingredientes" asp-action="Index" asp-route-receita="@item.Id">
+                        <span class="glyphicon glyphicon-pencil icon-edit" aria-hidden="true"></span>
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">
+                        <span class="glyphicon glyphicon-remove icon-remove" aria-hidden="true"></span>
+                    </a>
+                </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.Id">
                         @Html.DisplayFor(modelItem => item.Descricao)
@@ -43,11 +54,6 @@
                 </td>
                 <td align="right">
                     @Html.DisplayFor(modelItem => item.CustoUnitario)
-                </td>
-                <td>
-                    <a asp-controller="Ingredientes" asp-action="Create" asp-route-id="@item.Id">Adicionar</a> |
-                    <a asp-controller="Ingredientes" asp-action="Index" asp-route-receita="@item.Id">Visualizar</a> |                    
-                    <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
                 </td>
             </tr>
         }
