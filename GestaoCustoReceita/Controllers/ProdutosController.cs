@@ -22,14 +22,23 @@ namespace GestaoCustoReceita.Controllers
             return Json(produto);
         }
 
-        public JsonResult GetbyId(int id)  
-        {   
+        public JsonResult GetbyId(int id)
+        {
 
             var produto = _context.Produtos
                 .SingleOrDefault(m => m.Id == id);
-             
-            return Json(produto);    
-        } 
+
+            return Json(produto);
+        }
+
+        public IActionResult AddOrEdit(int id)
+        {
+            if (id != 0)
+            {
+                var produto = _context.Produtos.SingleOrDefaultAsync(m => m.Id == id);
+            }
+            return View();
+        }
 
 
         public ProdutosController(ApplicationDbContext context)
@@ -77,7 +86,7 @@ namespace GestaoCustoReceita.Controllers
             }
             return View();
         }
- 
+
         // POST: Produtos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -101,7 +110,7 @@ namespace GestaoCustoReceita.Controllers
             var viewProduto = new ViewProduto();
             viewProduto.ProdutosList = await _context.Produtos.OrderBy(p => p.Descricao).ToListAsync();
             viewProduto.Produto = produto;
-            return View("Index",  viewProduto);
+            return View("Index", viewProduto);
         }
 
         // GET: Produtos/Edit/5
@@ -164,7 +173,7 @@ namespace GestaoCustoReceita.Controllers
                 else
                 {
                     return RedirectToAction("Index", "Ingredientes", new { receita = receitaId });
-                } 
+                }
             }
             return View(produto);
         }

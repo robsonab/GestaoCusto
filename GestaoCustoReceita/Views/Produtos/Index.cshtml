@@ -1,5 +1,5 @@
 @model ViewProduto
-    
+
 @{
     ViewData["Title"] = "Produtos";
 }
@@ -7,7 +7,7 @@
 <script>
 
     $('#myModal').on('shown.bs.modal', function () {
-    $('#myInput').focus()
+        $('#myInput').focus()
     })
 </script>
 
@@ -17,12 +17,12 @@
     <a asp-action="Create">Novo Produto</a>
 </p>
 
-@Html.Partial( "Produto", Model.Produto)
+@Html.Partial("Produto", Model.Produto)
 
 <table class="table">
     <thead>
         <tr>
-            <th>              
+            <th>
                 @Html.DisplayNameFor(model => model.Produto.Descricao)
             </th>
             <th align="right">
@@ -48,13 +48,24 @@
                     @Html.DisplayFor(modelItem => item.Preco)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Alterar</a> 
+                    <a asp-action="Edit" asp-route-id="@item.Id">Alterar</a>
+                    <a class="btn btn-primary btn-sm" 
+                       onclick="Edit('@Url.Action("AddOrEdit", "Produtos", new { id=@item.Id})')">
+                                <i class="fa fa-pencil fa-lg"></i>
+                    </a>
                 </td>
             </tr>
         }
-<!-- Button trigger modal -->
-@*<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-      Launch demo modal
-    </button>
-*@
-    </table>
+        <!-- Button trigger modal -->
+        @*<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+              Launch demo modal
+            </button>
+        *@
+</table>
+
+<script type="text/javascript">
+    $("#btnSave").click(function () {
+        $.post("/Produtos/Edit", $("#formEdit").serialize()
+        );
+    });
+</script>
