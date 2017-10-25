@@ -7,12 +7,30 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using GestaoCustoBusiness.Model;
 using GestaoCustoReceita.Data;
+using GestaoCustoReceita.Models;
 
 namespace GestaoCustoReceita.Controllers
 {
     public class ProdutosController : Controller
     {
         private readonly ApplicationDbContext _context;
+
+        [HttpPost]
+        public JsonResult Update([Bind("Id,Descricao,Qtd,Preco")] Produto produto)
+        {
+            //_context.Update(produto);
+            return Json(produto);
+        }
+
+        public JsonResult GetbyId(int id)  
+        {   
+
+            var produto = _context.Produtos
+                .SingleOrDefault(m => m.Id == id);
+             
+            return Json(produto);    
+        } 
+
 
         public ProdutosController(ApplicationDbContext context)
         {
@@ -22,7 +40,10 @@ namespace GestaoCustoReceita.Controllers
         // GET: Produtos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Produtos.OrderBy(p => p.Descricao).ToListAsync());
+            var viewProduto = new ViewProduto();
+            viewProduto.ProdutosList = await _context.Produtos.OrderBy(p => p.Descricao).ToListAsync();
+            viewProduto.Produto = new Produto();
+            return View(viewProduto);
         }
 
         // GET: Produtos/Details/5
@@ -56,8 +77,7 @@ namespace GestaoCustoReceita.Controllers
             }
             return View();
         }
-
-
+ 
         // POST: Produtos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -78,7 +98,10 @@ namespace GestaoCustoReceita.Controllers
                     return RedirectToAction("Create", "Ingredientes", new { id = receitaId });
                 }
             }
-            return View(produto);
+            var viewProduto = new ViewProduto();
+            viewProduto.ProdutosList = await _context.Produtos.OrderBy(p => p.Descricao).ToListAsync();
+            viewProduto.Produto = produto;
+            return View("Index",  viewProduto);
         }
 
         // GET: Produtos/Edit/5

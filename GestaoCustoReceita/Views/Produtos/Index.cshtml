@@ -1,31 +1,41 @@
-@model IEnumerable<GestaoCustoBusiness.Model.Produto>
+@model ViewProduto
     
 @{
     ViewData["Title"] = "Produtos";
 }
+
+<script>
+
+    $('#myModal').on('shown.bs.modal', function () {
+    $('#myInput').focus()
+    })
+</script>
 
 <h2>Produtos</h2>
 
 <p>
     <a asp-action="Create">Novo Produto</a>
 </p>
+
+@Html.Partial( "Produto", Model.Produto)
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Descricao)
+            <th>              
+                @Html.DisplayNameFor(model => model.Produto.Descricao)
             </th>
             <th align="right">
-                @Html.DisplayNameFor(model => model.Qtd)
+                @Html.DisplayNameFor(model => model.Produto.Qtd)
             </th>
             <th align="right">
-                @Html.DisplayNameFor(model => model.Preco)
+                @Html.DisplayNameFor(model => model.Produto.Preco)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.ProdutosList)
         {
             <tr>
                 <td>
@@ -42,5 +52,9 @@
                 </td>
             </tr>
         }
-    </tbody>
-</table>
+<!-- Button trigger modal -->
+@*<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+      Launch demo modal
+    </button>
+*@
+    </table>

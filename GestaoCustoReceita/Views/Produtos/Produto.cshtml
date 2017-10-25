@@ -1,17 +1,9 @@
 @model GestaoCustoBusiness.Model.Produto
 
-@{
-    ViewData["Title"] = "Alterar";
-}
-
-<h2>Alterar</h2>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
-<form asp-action="Edit" id="formEdit">
+<form asp-action="Create" id="formEdit" >
     <div>
-        <input type="hidden" asp-for="Id" />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" value="@ViewBag.ReceitaId" name="ReceitaId" id="ReceitaId" />
+        <input type="hidden" asp-for="Id" />
         <div class="form-horizontal">
             <div class="form-group">
                 <label asp-for="Descricao" class="col-md-2 control-label"></label>
@@ -35,52 +27,17 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-3">
-                    <input type="submit" value="Salvar" class="btn btn-default" />
-                </div>
-                <div class="col-md-3">
-                    <input type="button" value="Salvar Ajax" class="btn btn-default"    id="btnSave" />
+                <div class="col-md-offset-2 col-md-10">                    
+                    <input type="submit" value="Salvar" class="btn btn-default" id="btnSave" />
                 </div>
             </div>
         </div>
     </div>
-
 </form>
 
-<div>
-    <a asp-action="Index">Voltar</a>
-</div>
-<script>
-
-    //function for updating employee's record
-    function Update() {
-         
-        var empObj = {
-            Id: $('#Id').val(),
-            Descricao: $('#Descricao').val(),
-            Qtd: $('#Qtd').val(),
-            Preco: $('#Preco').val() 
-        };
-        $.ajax({
-            url: "/Produtos/Update",
-            data: empObj,
-            type: "POST",
-            contentType: "application/json;charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                alert(empObj);
-            }
-        });
-    }
-</script>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
-
-<script type="text/javascript">
+@*<script type="text/javascript">
     $("#btnSave").click(function () {
         $.post("/Produtos/Edit", $("#formEdit").serialize()
         );
     });
-</script>
-
+</script>*@
